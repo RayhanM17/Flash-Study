@@ -8,9 +8,11 @@ const {
     generateFlashCards
 } = require('../controllers/flashcardController')
 
-router.route('/').get(getFlashCards).post(setFlashCard)
-router.route('/:id').delete(deleteFlashCard).put(updateFlashCard)
+const { protect } = require('../middleware/authMiddleware')
 
-router.post('/generate', generateFlashCards)
+router.route('/').get(protect, getFlashCards).post(protect, setFlashCard)
+router.route('/:id').delete(protect, deleteFlashCard).put(protect, updateFlashCard)
+
+router.post('/generate', protect, generateFlashCards)
 
 module.exports = router

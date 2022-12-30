@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler')
+
 const Flashcard = require('../models/flashcardModel')
+const User = require('../models/userModel')
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({apiKey: process.env.OPENAI_API_KEY,});
@@ -9,7 +11,7 @@ const openai = new OpenAIApi(configuration);
 // @route GET /api/flashcards
 // @access Private
 const getFlashCards = asyncHandler(async (req, res) => {
-    const flashcards = await Flashcard.find()
+    const flashcards = await Flashcard.find({ user: req.user.id })
 
     res.status(200).json(flashcards)
 })
@@ -24,7 +26,8 @@ const setFlashCard = asyncHandler(async (req, res) => {
     }
     const flashcard = await Flashcard.create({
         frontText: req.body.frontText,
-        backText: req.body.backText
+        backText: req.body.backText,
+        user: req.user.id
     })
 
     res.status(200).json(flashcard)
@@ -39,6 +42,20 @@ const updateFlashCard = asyncHandler(async (req, res) => {
     if(!flashcard) {
         res.status(400)
         throw new Error('Flashcard not found')
+    }
+
+    const user = await User.findById(req.user.id)
+
+    // Check for user
+    if(!user){
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    // Make sure the logged in user matches the flashcard user
+    if(flashcard.user.toString() !== user.id){
+        res.status(401)
+        throw new Error('User not authorized')
     }
 
     const updatedFlashcard = await Flashcard.findByIdAndUpdate(req.params.id, req.body, {
@@ -57,6 +74,20 @@ const deleteFlashCard = asyncHandler(async (req, res) => {
     if(!flashcard) {
         res.status(400)
         throw new Error('Flashcard not found')
+    }
+
+    const user = await User.findById(req.user.id)
+
+    // Check for user
+    if(!user){
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    // Make sure the logged in user matches the flashcard user
+    if(flashcard.user.toString() !== user.id){
+        res.status(401)
+        throw new Error('User not authorized')
     }
 
     await flashcard.remove()
@@ -116,7 +147,8 @@ const generateFlashCards = asyncHandler(async (req, res) => {
         if(typeof front[i] == "string" && typeof back[i] == "string"){
             const flashcard = await Flashcard.create({
                 frontText: front[i],
-                backText: back[i]
+                backText: back[i],
+                user: req.user.id
             })
             list.push(flashcard)
         }
