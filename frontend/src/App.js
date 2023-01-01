@@ -1,5 +1,6 @@
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
+import Footer from './components/layout/Footer'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -18,7 +19,7 @@ function App() {
               <Route path='/register' element={<Register />} />
             </Routes>
           </main>
-
+          <Footer />
         </div>
       </Router>
     </>

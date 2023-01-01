@@ -1814,6 +1814,19 @@ html {
   text-decoration-line: underline;
 }
 
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: var(--navbar-padding, 0.5rem);
+  min-height: 4rem;
+  width: 100%;
+}
+
+:where(.navbar > *) {
+  display: inline-flex;
+  align-items: center;
+}
+
 @-webkit-keyframes button-pop {
   0% {
     -webkit-transform: scale(var(--btn-focus-scale, 0.95));
@@ -1988,9 +2001,13 @@ html {
   }
 }
 
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.ml-3 {
+  margin-left: 0.75rem;
 }
 
 .flex {
@@ -1999,6 +2016,14 @@ html {
 
 .h-screen {
   height: 100vh;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.flex-row {
+  flex-direction: row;
 }
 
 .flex-col {
@@ -2014,8 +2039,13 @@ html {
   padding-right: 0.75rem;
 }
 
-.pb-12 {
-  padding-bottom: 3rem;
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 /* 
@@ -2049,3 +2079,12 @@ html {
         transform: rotate(360deg);
     }
 } */
+
+.logo{
+  background-image: url(./assets/Flashstudylogo.png);
+  height: 2.5rem;
+  width: 2.5rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

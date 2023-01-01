@@ -32,3 +32,12 @@
         transform: rotate(360deg);
     }
 } */
+
+.logo{
+    background-image: url(./assets/Flashstudylogo.png);
+    height: 2.5rem;
+    width: 2.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
