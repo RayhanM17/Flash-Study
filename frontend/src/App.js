@@ -12,7 +12,7 @@ function App() {
         <div className='flex flex-col justify-between h-screen'>
           <Navbar />
 
-          <main className='container px-3'>
+          <main className='w-full px-3'>
             <Routes>
               <Route path='/' element={<Dashboard />} />
               <Route path='/login' element={<Login />} />
