@@ -52,7 +52,11 @@ function Register() {
   const onSubmit = (e) => {
     e.preventDefault()
 
-    if(password !== password2) {
+    if(name === '' || email === '' || password === '' || password2 === '') {
+      toast.error('Please fill in all fields', {
+        theme: "dark"
+      })
+    } else if(password !== password2) {
       toast.error('Passwords do not match', {
         theme: "dark"
       })

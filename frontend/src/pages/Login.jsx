@@ -50,12 +50,18 @@ function Login() {
   const onSubmit = (e) => {
     e.preventDefault()
 
-    const userData ={
-      email,
-      password
+    if(email !== '' && password !== ''){
+      const userData ={
+        email,
+        password
+      }
+  
+      dispatch(login(userData))
+    } else {
+      toast.error('Please fill in all fields', {
+        theme: "dark"
+      })
     }
-
-    dispatch(login(userData))
   }
 
   if(isLoading) {
