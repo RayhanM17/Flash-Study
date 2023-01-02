@@ -13,6 +13,7 @@ function Register() {
     password: '',
     password2: ''
   })
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
   const {name, email, password, password2} = formData
 
@@ -35,7 +36,7 @@ function Register() {
     }
 
     if(isSuccess || user) {
-      navigate('/')
+      navigate('/dashboard')
     }
 
     dispatch(reset())
@@ -43,6 +44,12 @@ function Register() {
   }, [user, isError, isSuccess, message, navigate, dispatch])
 
   const onChange = (e) => {
+    if(name === '' || email === '' || password === '' || password2 === ''){
+      setBtnDisabled(true)
+    } else{
+      setBtnDisabled(false)
+    }
+
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
@@ -135,7 +142,7 @@ function Register() {
             className="input input-bordered input-md w-full"
           />
         </label>
-        <button type="submit" className='btn btn-primary mt-8'>Submit</button>
+        <button disabled={btnDisabled} type="submit" className='btn btn-primary mt-8'>Submit</button>
       </form>
     </>
   )

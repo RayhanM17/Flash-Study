@@ -3,9 +3,11 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+import Welcome from './pages/Welcome'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -16,9 +18,11 @@ function App() {
 
           <main className='w-full px-3'>
             <Routes>
-              <Route path='/' element={<Dashboard />} />
+              <Route path='/' element={<Welcome />} />
+              <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
+              <Route path='/*' element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

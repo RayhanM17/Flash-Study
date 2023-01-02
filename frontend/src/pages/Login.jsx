@@ -11,6 +11,7 @@ function Login() {
     email: '',
     password: ''
   })
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
   const { email, password } = formData
 
@@ -33,7 +34,7 @@ function Login() {
     }
 
     if(isSuccess || user) {
-      navigate('/')
+      navigate('/dashboard')
     }
 
     dispatch(reset())
@@ -41,6 +42,12 @@ function Login() {
   }, [user, isError, isSuccess, message, navigate, dispatch])
 
   const onChange = (e) => {
+    if(email === '' || password === ''){
+      setBtnDisabled(true)
+    } else{
+      setBtnDisabled(false)
+    }
+
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
@@ -108,7 +115,7 @@ function Login() {
             className="input input-bordered input-md w-full"
           />
         </label>
-        <button type="submit" className='btn btn-primary mt-8'>Submit</button>
+        <button disabled={btnDisabled} type="submit" className='btn btn-primary mt-8'>Submit</button>
       </form>
     </>
   )
