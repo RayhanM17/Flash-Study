@@ -41,16 +41,16 @@ function Dashboard() {
   }
 
   return <>
-    <div className='text-primary-content px-4 mb-10'>
+    <div className='text-primary-content px-4 mb-10 flex flex-col align-center justify-center h-[50vh] min-h-[10rem]'>
       <h1 className="text-5xl mb-5">Welcome {user && user.name}</h1>
-      <p className="text-lg text-white-400 mb-5">Flashcards Dashboard</p>
+      <p className="text-md text-white-400 font-bold">Flashcards Dashboard</p>
     </div>
 
     <FlashcardGen />
     
     <FlashcardForm cardEdit={cardEdit} setCardEdit={setCardEdit}/>
 
-    <div>
+    <div className='mb-40'>
       {flashcards.length > 0 ? (
         <ul>
           {flashcards.map((flashcard) => (

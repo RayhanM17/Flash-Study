@@ -15,16 +15,16 @@ function Welcome() {
     }, [user, navigate])
 
   return (
-    <div className='text-primary-content px-4'>
+    <div className='text-primary-content px-4 h-[30vh]'>
         <h1 className="text-6xl mb-5">Welcome to FlashStudy</h1>
-        <p className="text-lg text-white-400 mb-5">
+        <p className="text-md text-white-400 mb-6 font-bold">
             The Worlds Best Study Assistant
         </p>
         <div className="flex">
             <Link to='/login' className='text-lg font-bold btn btn-primary'>
                 login
             </Link>
-            <Link to='/register' className='text-lg font-bold btn btn-primary ml-4'>
+            <Link to='/register' className='text-lg font-bold btn btn-secondary ml-4'>
                 Register
             </Link>
         </div>
