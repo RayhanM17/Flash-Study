@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import FlashcardForm from '../components/FlashcardForm'
 import FlashcardItem from '../components/FlashcardItem'
+import FlashcardGen from '../components/FlashcardGen'
 import Spinner from '../components/Spinner'
 import { getFlashcards, reset } from '../features/flashcards/flashcardSlice'
 
@@ -45,6 +46,8 @@ function Dashboard() {
       <p className="text-lg text-white-400 mb-5">Flashcards Dashboard</p>
     </div>
 
+    <FlashcardGen />
+    
     <FlashcardForm cardEdit={cardEdit} setCardEdit={setCardEdit}/>
 
     <div>

@@ -54,11 +54,25 @@ const updateFlashcard = async (flashcardId, flashcardData, token) => {
     return response.data
 }
 
+// Generate flashcards
+const genFlashcards = async (subject, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.post(API_URL + 'generate', subject, config)
+
+    return response.data
+}
+
 const flashcardService = {
     createFlashcard,
     getFlashcards,
     deleteFlashcard,
-    updateFlashcard
+    updateFlashcard,
+    genFlashcards
 }
 
 export default flashcardService

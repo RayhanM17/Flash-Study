@@ -77,6 +77,22 @@ export const updateFlashcard = createAsyncThunk('flashcards/update', async (upda
     }
 })
 
+//Generate flashcards
+export const genFlashcards = createAsyncThunk('flashcards/generate', async (subject, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await flashcardService.genFlashcards(subject, token)
+    } catch (error) {
+        const message = 
+            (error.response && 
+            error.response.data && 
+            error.response.data.message) || 
+            error.message || 
+            error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const flashcardSlice = createSlice({
     name: 'flashcard',
     initialState,
@@ -137,6 +153,19 @@ export const flashcardSlice = createSlice({
                 )
             })
             .addCase(updateFlashcard.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(genFlashcards.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(genFlashcards.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.flashcards = [...state.flashcards, ...action.payload]
+            })
+            .addCase(genFlashcards.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
