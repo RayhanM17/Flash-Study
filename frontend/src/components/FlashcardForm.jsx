@@ -1,9 +1,9 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
-import {createFlashcard} from '../features/flashcards/flashcardSlice'
+import {createFlashcard, updateFlashcard} from '../features/flashcards/flashcardSlice'
 import { toast } from 'react-toastify'
 
-function FlashcardForm() {
+function FlashcardForm({cardEdit, setCardEdit}) {
     const [formData, setFormData] = useState({
         frontText: '',
         backText: ''
@@ -13,6 +13,16 @@ function FlashcardForm() {
     const dispatch = useDispatch()
     
     const { frontText, backText } = formData
+
+    useEffect(() => {
+        if(cardEdit.edit){
+          setBtnDisabled(false)
+          setFormData({
+            frontText: cardEdit.item.frontText,
+            backText: cardEdit.item.backText
+          })
+        }
+    }, [cardEdit])
 
     const onChange = (e) => {
         if(frontText === '' || backText === ''){
@@ -31,11 +41,20 @@ function FlashcardForm() {
         e.preventDefault()
 
         if(frontText !== '' && backText !== '') {
-            const flashcardData = {
-                frontText,
-                backText
+            if(cardEdit.edit) {
+                const updateData = {
+                    id: cardEdit.item._id,
+                    frontText: formData.frontText,
+                    backText: formData.backText
+                }
+                dispatch(updateFlashcard(updateData))
+                setCardEdit({
+                    item: {},
+                    edit: false
+                })
+            } else {
+                dispatch(createFlashcard(formData))
             }
-            dispatch(createFlashcard(formData))
             setFormData({
                 frontText: '',
                 backText: ''

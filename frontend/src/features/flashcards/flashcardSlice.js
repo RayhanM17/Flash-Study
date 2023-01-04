@@ -41,6 +41,42 @@ export const getFlashcards = createAsyncThunk('flashcards/getAll', async(_, thun
     }
 })
 
+// Delete user flashcard
+export const deleteFlashcard = createAsyncThunk('flashcards/delete', async (id, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await flashcardService.deleteFlashcard(id, token)
+    } catch (error) {
+        const message = 
+            (error.response && 
+            error.response.data && 
+            error.response.data.message) || 
+            error.message || 
+            error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
+//Update user flashcard
+export const updateFlashcard = createAsyncThunk('flashcards/update', async (updateData, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        const flashcardData = {
+            frontText: updateData.frontText,
+            backText: updateData.backText
+        }
+        return await flashcardService.updateFlashcard(updateData.id, flashcardData, token)
+    } catch (error) {
+        const message = 
+            (error.response && 
+            error.response.data && 
+            error.response.data.message) || 
+            error.message || 
+            error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const flashcardSlice = createSlice({
     name: 'flashcard',
     initialState,
@@ -71,6 +107,36 @@ export const flashcardSlice = createSlice({
                 state.flashcards = action.payload
             })
             .addCase(getFlashcards.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(deleteFlashcard.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(deleteFlashcard.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.flashcards = state.flashcards.filter(
+                    (flashcard) => flashcard._id !== action.payload.id
+                )
+            })
+            .addCase(deleteFlashcard.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(updateFlashcard.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updateFlashcard.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.flashcards = state.flashcards.map(
+                    (flashcard) => (flashcard._id === action.payload._id ? {...flashcard, ...action.payload} : flashcard)
+                )
+            })
+            .addCase(updateFlashcard.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

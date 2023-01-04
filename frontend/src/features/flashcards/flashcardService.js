@@ -28,9 +28,37 @@ const getFlashcards = async (token) => {
     return response.data
 }
 
+// Delete user flashcard
+const deleteFlashcard = async (flashcardId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.delete(API_URL + flashcardId, config)
+
+    return response.data
+}
+
+// Update user flashcard
+const updateFlashcard = async (flashcardId, flashcardData, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.put(API_URL + flashcardId, flashcardData, config)
+
+    return response.data
+}
+
 const flashcardService = {
     createFlashcard,
-    getFlashcards
+    getFlashcards,
+    deleteFlashcard,
+    updateFlashcard
 }
 
 export default flashcardService
