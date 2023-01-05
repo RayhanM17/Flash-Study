@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import NotFound from './pages/NotFound'
+import Study from './pages/Study'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
+              <Route path='/study' element={<Study />} />
               <Route path='/*' element={<NotFound />} />
             </Routes>
           </main>

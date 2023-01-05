@@ -24,9 +24,17 @@ function Navbar() {
             </div>
             <div className="w-full flex flex-row pr-2 justify-end">
                 {user ? (
-                    <button onClick={onLogout} className='btn btn-ghost btn-sm rounded-btn'>
-                        <FaSignOutAlt className='mr-1'/> Logout
-                    </button>
+                    <>  
+                        <Link to='/dashboard' className='btn btn-ghost btn-sm rounded-btn'>
+                            Dashboard
+                        </Link>
+                        <Link to='/study' className='btn btn-ghost btn-sm rounded-btn'>
+                            Study
+                        </Link>
+                        <button onClick={onLogout} className='btn btn-ghost btn-sm rounded-btn'>
+                            <FaSignOutAlt className='mr-1'/> Logout
+                        </button>
+                    </>
                 ) : (<>
                     <Link to='/login' className='btn btn-ghost btn-sm rounded-btn'>
                         <FaSignInAlt className='mr-1'/> Login

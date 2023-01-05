@@ -20,10 +20,10 @@ function FlashcardItem({flashcard, setCardEdit}) {
         <p className='col-start-4 col-end-6'>{flashcard.backText}</p>
         <div className='mt-4'>
             <button onClick={() => dispatch(deleteFlashcard(flashcard._id))} className="btn btn-xs">
-                <AiFillDelete />
+                <AiFillDelete className='text-accent'/>
             </button>
             <button onClick={handleEditClick} className="btn btn-xs">
-                < BiEditAlt />
+                < BiEditAlt className='text-accent'/>
             </button>
         </div>
     </li>

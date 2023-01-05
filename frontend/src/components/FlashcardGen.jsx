@@ -23,7 +23,7 @@ function FlashcardGen() {
         e.preventDefault()
 
         if(subject !== ''){
-            dispatch(genFlashcards(subject))
+            dispatch(genFlashcards({subject}))
             setSubject('')
         } else {
             toast.error('Please fill in all fields', {
