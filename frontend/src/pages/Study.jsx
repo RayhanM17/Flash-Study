@@ -1,16 +1,18 @@
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useParams } from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux'
 import { useEffect } from 'react'
 import FlashcardFlip from '../components/FlashcardFlip';
 import Spinner from '../components/Spinner'
 import {BsChevronLeft, BsChevronRight} from 'react-icons/bs'
 import { useState } from 'react';
-import { getFlashcards, reset } from '../features/flashcards/flashcardSlice';
+import { getFlashcardsLists, reset } from '../features/flashcards/flashcardSlice';
 
 function Study() {
     const {user} = useSelector((state) => state.auth)
-    const {flashcards, isLoading, isSuccess, isError, message} = useSelector((state) => state.flashcards)
+    const {flashcardsLists, isLoading, isSuccess, isError, message} = useSelector((state) => state.flashcards)
     const [index, setIndex] = useState(0)
+    const { id } = useParams()
+    const list = flashcardsLists.find(list => list._id === id)
     const [currentCard, setCurrentCard] = useState(null)
 
     const dispatch = useDispatch()
@@ -25,11 +27,11 @@ function Study() {
             console.log(message)
         }
 
-        if(isSuccess && flashcards.length > 0){
-            setCurrentCard(flashcards[index])
+        if(isSuccess && list.flashcards.length > 0){
+            setCurrentCard(list.flashcards[index])
         }
 
-        dispatch(getFlashcards())
+        dispatch(getFlashcardsLists())
 
         return () => {
             dispatch(reset())
@@ -52,21 +54,21 @@ function Study() {
     }
 
     const toggleNext = () => {
-        if(index + 1 < flashcards.length) {
-            setCurrentCard(flashcards[index + 1])
+        if(index + 1 < list.flashcards.length) {
+            setCurrentCard(list.flashcards[index + 1])
             setIndex(index + 1)
         } else {
-            setCurrentCard(flashcards[0])
+            setCurrentCard(list.flashcards[0])
             setIndex(0)
         }
     }
 
     const togglePrev = () => {
         if(index - 1 < 0) {
-            setCurrentCard(flashcards[flashcards.length - 1])
-            setIndex(flashcards.length - 1)
+            setCurrentCard(list.flashcards[list.flashcards.length - 1])
+            setIndex(list.flashcards.length - 1)
         } else {
-            setCurrentCard(flashcards[index - 1])
+            setCurrentCard(list.flashcards[index - 1])
             setIndex(index - 1)
         }
     }
@@ -89,7 +91,7 @@ function Study() {
             <button onClick={togglePrev} className="btn btn-circle">
                 <BsChevronLeft className='text-accent'/>
             </button>
-            <div className="badge badge-primary">{`${index + 1}/${flashcards.length}`}</div>
+            <div className="badge badge-primary">{`${index + 1}/${list.flashcards.length}`}</div>
             <button onClick={toggleNext} className="btn btn-circle">
                 <BsChevronRight className='text-accent'/>
             </button>

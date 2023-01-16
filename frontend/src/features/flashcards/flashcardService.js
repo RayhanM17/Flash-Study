@@ -1,78 +1,38 @@
 import axios from 'axios'
 
-const API_URL = 'api/flashcards/'
-
-// Create new flashcard
-const createFlashcard = async (flashcardData, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-
-    const response = await axios.post(API_URL, flashcardData, config)
-
-    return response.data
-}
+const API_URL = '/api/cardlists/'
 
 // Get user flashcards
-const getFlashcards = async (token) => {
+const getFlashcards = async (cardListId, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
 
-    const response = await axios.get(API_URL, config)
+    const response = await axios.get(API_URL + cardListId + '/flashcards', config)
 
     return response.data
 }
 
-// Delete user flashcard
-const deleteFlashcard = async (flashcardId, token) => {
+// Create user list flashcard
+const createFlashcard = async (cardListId, formData, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
 
-    const response = await axios.delete(API_URL + flashcardId, config)
-
-    return response.data
-}
-
-// Update user flashcard
-const updateFlashcard = async (flashcardId, flashcardData, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-
-    const response = await axios.put(API_URL + flashcardId, flashcardData, config)
-
-    return response.data
-}
-
-// Generate flashcards
-const genFlashcards = async (subject, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-
-    const response = await axios.post(API_URL + 'generate', subject, config)
+    const response = await axios.post(
+        API_URL + cardListId + '/flashcards', formData, config
+    )
 
     return response.data
 }
 
 const flashcardService = {
-    createFlashcard,
     getFlashcards,
-    deleteFlashcard,
-    updateFlashcard,
-    genFlashcards
+    createFlashcard
 }
 
 export default flashcardService

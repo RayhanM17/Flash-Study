@@ -9,11 +9,11 @@ const initialState = {
     message: ''
 }
 
-//Create new flashcard
-export const createFlashcard = createAsyncThunk('flashcards/create', async (flashcardData, thunkAPI) => {
+// Get user flashcards
+export const getFlashcards = createAsyncThunk('flashcards/getAll', async(cardListId, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await flashcardService.createFlashcard(flashcardData, token)
+        return await flashcardService.getFlashcards(cardListId, token)
     } catch (error) {
         const message = 
             (error.response && 
@@ -25,63 +25,11 @@ export const createFlashcard = createAsyncThunk('flashcards/create', async (flas
     }
 })
 
-// Get user goals
-export const getFlashcards = createAsyncThunk('flashcards/getAll', async(_, thunkAPI) => {
+// Create user list flashcard
+export const createFlashcard = createAsyncThunk('flashcards/create', async(formData, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await flashcardService.getFlashcards(token)
-    } catch (error) {
-        const message = 
-            (error.response && 
-            error.response.data && 
-            error.response.data.message) || 
-            error.message || 
-            error.toString()
-        return thunkAPI.rejectWithValue(message)
-    }
-})
-
-// Delete user flashcard
-export const deleteFlashcard = createAsyncThunk('flashcards/delete', async (id, thunkAPI) => {
-    try {
-        const token = thunkAPI.getState().auth.user.token
-        return await flashcardService.deleteFlashcard(id, token)
-    } catch (error) {
-        const message = 
-            (error.response && 
-            error.response.data && 
-            error.response.data.message) || 
-            error.message || 
-            error.toString()
-        return thunkAPI.rejectWithValue(message)
-    }
-})
-
-//Update user flashcard
-export const updateFlashcard = createAsyncThunk('flashcards/update', async (updateData, thunkAPI) => {
-    try {
-        const token = thunkAPI.getState().auth.user.token
-        const flashcardData = {
-            frontText: updateData.frontText,
-            backText: updateData.backText
-        }
-        return await flashcardService.updateFlashcard(updateData.id, flashcardData, token)
-    } catch (error) {
-        const message = 
-            (error.response && 
-            error.response.data && 
-            error.response.data.message) || 
-            error.message || 
-            error.toString()
-        return thunkAPI.rejectWithValue(message)
-    }
-})
-
-//Generate flashcards
-export const genFlashcards = createAsyncThunk('flashcards/generate', async (subject, thunkAPI) => {
-    try {
-        const token = thunkAPI.getState().auth.user.token
-        return await flashcardService.genFlashcards(subject, token)
+        return await flashcardService.createFlashcard(formData.id, formData.flashcard, token)
     } catch (error) {
         const message = 
             (error.response && 
@@ -101,19 +49,6 @@ export const flashcardSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(createFlashcard.pending, (state) => {
-                state.isLoading = true
-            })
-            .addCase(createFlashcard.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
-                state.flashcards.push(action.payload)
-            })
-            .addCase(createFlashcard.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
-                state.message = action.payload
-            })
             .addCase(getFlashcards.pending, (state) => {
                 state.isLoading = true
             })
@@ -127,45 +62,15 @@ export const flashcardSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
             })
-            .addCase(deleteFlashcard.pending, (state) => {
+            .addCase(createFlashcard.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(deleteFlashcard.fulfilled, (state, action) => {
+            .addCase(createFlashcard.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.flashcards = state.flashcards.filter(
-                    (flashcard) => flashcard._id !== action.payload.id
-                )
+                state.flashcards.push(action.payload)
             })
-            .addCase(deleteFlashcard.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
-                state.message = action.payload
-            })
-            .addCase(updateFlashcard.pending, (state) => {
-                state.isLoading = true
-            })
-            .addCase(updateFlashcard.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
-                state.flashcards = state.flashcards.map(
-                    (flashcard) => (flashcard._id === action.payload._id ? {...flashcard, ...action.payload} : flashcard)
-                )
-            })
-            .addCase(updateFlashcard.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
-                state.message = action.payload
-            })
-            .addCase(genFlashcards.pending, (state) => {
-                state.isLoading = true
-            })
-            .addCase(genFlashcards.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
-                state.flashcards = [...state.flashcards, ...action.payload]
-            })
-            .addCase(genFlashcards.rejected, (state, action) => {
+            .addCase(createFlashcard.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

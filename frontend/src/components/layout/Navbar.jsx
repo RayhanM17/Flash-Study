@@ -28,9 +28,6 @@ function Navbar() {
                         <Link to='/dashboard' className='btn btn-ghost btn-sm rounded-btn'>
                             Dashboard
                         </Link>
-                        <Link to='/study' className='btn btn-ghost btn-sm rounded-btn'>
-                            Study
-                        </Link>
                         <button onClick={onLogout} className='btn btn-ghost btn-sm rounded-btn'>
                             <FaSignOutAlt className='mr-1'/> Logout
                         </button>
