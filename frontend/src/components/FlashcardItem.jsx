@@ -1,8 +1,11 @@
 import {AiFillDelete} from 'react-icons/ai'
 import {BiEditAlt} from 'react-icons/bi'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
+import { deleteFlashcard} from '../features/flashcards/flashcardSlice'
 
-function FlashcardItem({flashcard}) {
+function FlashcardItem({flashcard, setFlashcardEdit, cardListId, setShowFlashcardModal}) {
+
+  const dispatch = useDispatch()
 
   return (
     <li className='card bg-base-300 mt-6 p-5 border-secondary text-white mx-4'>
@@ -10,11 +13,28 @@ function FlashcardItem({flashcard}) {
         <div className="divider"></div>
         <p className='col-start-4 col-end-6'>{flashcard.backText}</p>
         <div className='mt-4'>
-            <button className="btn btn-xs">
+            <button 
+              className="btn btn-xs"
+              onClick={() => 
+                dispatch(deleteFlashcard({
+                  cardListId, 
+                  flashcardId: flashcard._id
+                }))
+              }
+            >
                 <AiFillDelete className='text-accent'/>
             </button>
-            <button className="btn btn-xs">
-                < BiEditAlt className='text-accent'/>
+            <button 
+              className="btn btn-xs"
+              onClick={() => {
+                setFlashcardEdit({
+                  edit: true,
+                  updateFlashcard: flashcard
+                })
+                setShowFlashcardModal(true)
+              }}
+            >
+                <BiEditAlt className='text-accent'/>
             </button>
         </div>
     </li>

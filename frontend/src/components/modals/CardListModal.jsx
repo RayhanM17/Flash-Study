@@ -1,18 +1,18 @@
 import {useState} from 'react'
 import {useDispatch} from 'react-redux'
-import { reset, updateCardList} from '../features/cardLists/cardListSlice'
+import { reset, updateCardList} from '../../features/cardLists/cardListSlice'
 import { toast } from 'react-toastify'
 import PropTypes from 'prop-types';
 
-function CardListModal({cardList, showListModal, setShowListModal}) {
+function CardListModal({cardList, showModal, setShowModal}) {
     const [title, setTitle] = useState(cardList.title)
     const [description, setDescription] = useState(cardList.description)
 
     const dispatch = useDispatch()
 
-    const ModalClass = showListModal ? 'modal-open' : ''
+    const ModalClass = showModal ? 'modal-open' : ''
 
-    const toggleModal = () => setShowListModal(!showListModal)
+    const toggleModal = () => setShowModal(!showModal)
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -24,7 +24,6 @@ function CardListModal({cardList, showListModal, setShowListModal}) {
                     description
                 }
             }))
-            dispatch(reset())
             toggleModal()
         } else {
             toast.error('Please fill in all fields', {
@@ -38,6 +37,7 @@ function CardListModal({cardList, showListModal, setShowListModal}) {
   return (
     <div className={`modal ${ModalClass}`} >
         <div className="modal-box relative">
+            <h4 className='font-medium'>Update List</h4>
             <form className='form-control' onSubmit={onSubmit}>
                 <label onClick={toggleModal} htmlFor="my-modal-3" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                 <label className="input-group input-group-vertical mt-6">
@@ -64,7 +64,7 @@ function CardListModal({cardList, showListModal, setShowListModal}) {
                 placeholder='Enter Text'
                 className="textarea textarea-bordered h-24 w-full"
                 /> 
-                <button type='submit' className='btn btn-sm mt-5 btn-warning'>Update</button>
+                <button type='submit' className='btn btn-sm mt-5 btn-warning'>Save Changes</button>
             </form>
         </div>
     </div>
@@ -73,8 +73,8 @@ function CardListModal({cardList, showListModal, setShowListModal}) {
 
 CardListModal.propTypes = {
     cardList: PropTypes.object.isRequired,
-    showListModal: PropTypes.bool.isRequired,
-    setShowListModal: PropTypes.func.isRequired
+    showModal: PropTypes.bool.isRequired,
+    setShowModal: PropTypes.func.isRequired
 };
 
 export default CardListModal

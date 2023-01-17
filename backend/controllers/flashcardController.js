@@ -91,7 +91,7 @@ const deleteFlashcard = asyncHandler(async (req, res) => {
 
     await flashcard.remove()
 
-    res.status(200).json({success: true})
+    res.status(200).json({ id: req.params.id })
 })
 
 // @desc update flashcard for a Card List
