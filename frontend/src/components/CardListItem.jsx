@@ -10,6 +10,11 @@ function CardListItem({cardList}) {
               View
           </Link>
         </td>
+        <td>
+          <Link className='btn btn-ghost btn-sm' to={`/cardlist/${cardList._id}/study`} >
+              Study
+          </Link>
+        </td>
     </tr>
   )
 }

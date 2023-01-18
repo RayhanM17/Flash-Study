@@ -22,7 +22,7 @@ function FlashcardItem({flashcard, setFlashcardEdit, cardListId, setShowFlashcar
                 }))
               }
             >
-                <AiFillDelete className='text-accent'/>
+                <AiFillDelete className='text-error'/>
             </button>
             <button 
               className="btn btn-xs"
@@ -34,7 +34,7 @@ function FlashcardItem({flashcard, setFlashcardEdit, cardListId, setShowFlashcar
                 setShowFlashcardModal(true)
               }}
             >
-                <BiEditAlt className='text-accent'/>
+                <BiEditAlt className='text-warning'/>
             </button>
         </div>
     </li>

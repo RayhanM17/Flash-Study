@@ -10,6 +10,7 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import NewCardList from './pages/NewCardList'
 import CardLists from './pages/CardLists'
+import Study from './pages/Study'
 import CardList from './pages/CardList'
 import NotFound from './pages/NotFound'
 
@@ -36,6 +37,9 @@ function App() {
               </Route>
               <Route path='/cardlist/:cardListId' element={<PrivateRoute />} >
                 <Route path='/cardlist/:cardListId' element={<CardList />} />
+              </Route>
+              <Route path='/cardlist/:cardListId/study' element={<PrivateRoute />} >
+                <Route path='/cardlist/:cardListId/study' element={<Study />} />
               </Route>
               <Route path='/*' element={<NotFound />} />
             </Routes>

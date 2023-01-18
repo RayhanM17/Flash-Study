@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types';
 
 function FlashcardFlip({flashcard}) {
     const [isFlipped, setIsFlipped] = useState(false);
@@ -26,5 +27,9 @@ function FlashcardFlip({flashcard}) {
         </div>
     )
 }
+
+FlashcardFlip.propTypes = {
+    flashcard: PropTypes.object.isRequired,
+};
 
 export default FlashcardFlip

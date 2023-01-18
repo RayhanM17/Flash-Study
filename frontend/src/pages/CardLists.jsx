@@ -44,6 +44,7 @@ function CardLists() {
                     <th>Date</th>
                     <th>Title</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
