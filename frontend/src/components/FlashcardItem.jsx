@@ -1,10 +1,11 @@
 import {AiFillDelete} from 'react-icons/ai'
 import {BiEditAlt} from 'react-icons/bi'
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
+import {toast} from 'react-toastify'
 import { deleteFlashcard} from '../features/flashcards/flashcardSlice'
 
 function FlashcardItem({flashcard, setFlashcardEdit, cardListId, setShowFlashcardModal}) {
-
+  const {isSuccess, isError, message} = useSelector((state) => state.flashcards)
   const dispatch = useDispatch()
 
   return (
@@ -15,12 +16,24 @@ function FlashcardItem({flashcard, setFlashcardEdit, cardListId, setShowFlashcar
         <div className='mt-4'>
             <button 
               className="btn btn-xs"
-              onClick={() => 
+              onClick={() => {
                 dispatch(deleteFlashcard({
                   cardListId, 
                   flashcardId: flashcard._id
                 }))
-              }
+                if(isSuccess) {
+                  toast.success(message, {
+                    position: toast.POSITION.BOTTOM_LEFT,
+                    theme: "dark"
+                  })
+                }
+                if(isError) {
+                  toast.error(message, {
+                    position: toast.POSITION.BOTTOM_LEFT,
+                    theme: "dark"
+                  })
+                }
+              }}
             >
                 <AiFillDelete className='text-error'/>
             </button>

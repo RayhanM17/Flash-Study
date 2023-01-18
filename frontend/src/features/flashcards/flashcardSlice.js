@@ -123,18 +123,14 @@ export const flashcardSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
             })
-            .addCase(deleteFlashcard.pending, (state) => {
-                state.isLoading = true
-            })
             .addCase(deleteFlashcard.fulfilled, (state, action) => {
-                state.isLoading = false
                 state.isSuccess = true
                 state.flashcards = state.flashcards.filter(
                     (flashcard) => flashcard._id !== action.payload.id
                 )
+                state.message = 'Card Deleted'
             })
             .addCase(deleteFlashcard.rejected, (state, action) => {
-                state.isLoading = false
                 state.isError = true
                 state.message = action.payload
             })

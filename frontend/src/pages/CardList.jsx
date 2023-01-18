@@ -16,7 +16,7 @@ import FlashcardGenModal from '../components/modals/FlashcardGenModal'
 
 function CardList() {
   const {cardList, isLoading, isError, message} = useSelector((state) => state.cardLists)
-  const {flashcards, isLoading: flashcardsIsLoading, isError: flashcardsIsError, message: flashcardsMessage} = useSelector((state) => state.flashcards)
+  const {flashcards, isLoading: flashcardsIsLoading, isError: flashcardsIsError, message: flashcardsMessage, isSuccess: flashcardsIsSuccess} = useSelector((state) => state.flashcards)
 
   const [showListModal, setShowListModal] = useState(false)
   const [flashcardEdit, setFlashcardEdit] = useState({
